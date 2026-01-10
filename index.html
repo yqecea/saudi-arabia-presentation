@@ -1,0 +1,2244 @@
+<!DOCTYPE html>
+<html lang="kk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сауд Арабиясы — Құм мен технологиялар патшалығы</title>
+    <meta name="description"
+        content="Сауд Арабиясы туралы презентация: география, мәдениет, көрнекті жерлер және Vision 2030">
+
+    <!-- Fonts: Playfair Display + Manrope -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Manrope:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+    <!-- GSAP + ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        /* ============================================
+           DESERT MODERNIST DESIGN SYSTEM
+        ============================================ */
+        :root {
+            /* Color Palette */
+            --sand: #E6DCCF;
+            --sand-dark: #D4C5B0;
+            --deep-blue: #1A3C40;
+            --gold: #C5A059;
+            --charcoal: #1C1C1C;
+            --cream: #F5F5F3;
+            --white: #FFFFFF;
+            --black: #000000;
+
+            /* Typography */
+            --font-serif: 'Playfair Display', Georgia, serif;
+            --font-sans: 'Manrope', -apple-system, sans-serif;
+
+            /* Spacing */
+            --section-padding: clamp(5rem, 10vh, 10rem);
+            --container-padding: clamp(1.5rem, 5vw, 5rem);
+            --grid-gap: clamp(2rem, 4vw, 6rem);
+
+            /* Shadows */
+            --shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --shadow-glow: 0 0 20px rgba(197, 160, 89, 0.3);
+
+            /* Easings */
+            --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html.lenis,
+        html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--cream);
+            color: var(--charcoal);
+            overflow-x: hidden;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        /* Grain Texture Overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* ============================================
+           LOADER
+        ============================================ */
+        .loader {
+            position: fixed;
+            inset: 0;
+            background: var(--charcoal);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s var(--ease-out-expo), visibility 0.8s;
+        }
+
+        .loader.done {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-text {
+            font-family: var(--font-serif);
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-style: italic;
+            color: var(--gold);
+            letter-spacing: 0.05em;
+        }
+
+        .loader-line {
+            width: 120px;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+            margin-top: 2rem;
+            overflow: hidden;
+        }
+
+        .loader-line::after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: var(--gold);
+            animation: loader-progress 2s var(--ease-out-expo) forwards;
+        }
+
+        @keyframes loader-progress {
+            from {
+                transform: translateX(-100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        /* ============================================
+           NAVIGATION
+        ============================================ */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 2rem var(--container-padding);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            mix-blend-mode: difference;
+        }
+
+        .nav-logo {
+            font-family: var(--font-sans);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--white);
+            text-decoration: none;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .nav-menu-btn {
+            background: var(--white);
+            border: none;
+            color: var(--charcoal);
+            padding: 0.75rem 2rem;
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 9999px;
+            transition: transform 0.4s var(--ease-out-expo), background 0.3s;
+        }
+
+        .nav-menu-btn:hover {
+            transform: scale(1.05);
+            background: var(--gold);
+        }
+
+        /* Menu Overlay */
+        .menu-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--charcoal);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            clip-path: circle(0% at calc(100% - 4rem) 3rem);
+            transition: clip-path 0.8s var(--ease-out-expo);
+        }
+
+        .menu-overlay.active {
+            clip-path: circle(150% at calc(100% - 4rem) 3rem);
+        }
+
+        .menu-close {
+            position: absolute;
+            top: 2rem;
+            right: var(--container-padding);
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: var(--cream);
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .menu-close:hover {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--charcoal);
+        }
+
+        .menu-links {
+            list-style: none;
+            text-align: center;
+        }
+
+        .menu-links li {
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .menu-links a {
+            font-family: var(--font-serif);
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-style: italic;
+            color: var(--cream);
+            text-decoration: none;
+            display: inline-block;
+            transition: color 0.3s, transform 0.5s var(--ease-out-expo);
+            transform: translateY(100%);
+        }
+
+        .menu-overlay.active .menu-links a {
+            transform: translateY(0);
+        }
+
+        .menu-links a:hover {
+            color: var(--gold);
+        }
+
+        /* ============================================
+           HERO SECTION
+        ============================================ */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            padding: var(--section-padding) var(--container-padding);
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+        }
+
+        .hero-bg img {
+            width: 100%;
+            height: 120%;
+            object-fit: cover;
+            filter: brightness(0.6) contrast(1.1);
+        }
+
+        .hero-content {
+            max-width: 100%;
+            color: var(--cream);
+            padding-bottom: 3rem;
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-sans);
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .hero-subtitle::before {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        .hero-title {
+            font-family: var(--font-serif);
+            font-size: clamp(4rem, 15vw, 12rem);
+            font-weight: 400;
+            font-style: italic;
+            line-height: 0.9;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-title .line {
+            display: block;
+            overflow: hidden;
+        }
+
+        .hero-title .line span {
+            display: block;
+            transform: translateY(110%);
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 3rem;
+            right: var(--container-padding);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--cream);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .hero-scroll::after {
+            content: '';
+            width: 1px;
+            height: 80px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            margin-top: 1rem;
+        }
+
+        /* ============================================
+           TYPOGRAPHY UTILITIES
+        ============================================ */
+        .section-label {
+            font-family: var(--font-sans);
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-label::before {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: currentColor;
+        }
+
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2.5rem, 5vw, 5rem);
+            font-weight: 400;
+            font-style: italic;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+        }
+
+        .section-text {
+            font-family: var(--font-sans);
+            font-size: 1.25rem;
+            font-weight: 300;
+            line-height: 1.7;
+            max-width: 600px;
+            color: rgba(28, 28, 28, 0.7);
+        }
+
+        .reveal-text {
+            overflow: hidden;
+        }
+
+        .reveal-text span {
+            display: inline-block;
+            transform: translateY(100%);
+        }
+
+        /* ============================================
+           ABOUT SECTION - ASYMMETRIC LAYOUT
+        ============================================ */
+        .about {
+            background: var(--cream);
+            padding: var(--section-padding) var(--container-padding);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--grid-gap);
+            align-items: start;
+        }
+
+        .about-content {
+            padding-top: 10vh;
+        }
+
+        .about-image {
+            position: relative;
+            border-radius: 0;
+            overflow: hidden;
+            aspect-ratio: 3/4;
+            margin-left: 15%;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 120%;
+            object-fit: cover;
+            transition: transform 1.5s var(--ease-out-expo);
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .stat-item {
+            border-left: 1px solid var(--gold);
+            padding-left: 1.5rem;
+        }
+
+        .stat-number {
+            font-family: var(--font-serif);
+            font-size: clamp(2.5rem, 4vw, 4rem);
+            font-style: italic;
+            color: var(--charcoal);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: rgba(28, 28, 28, 0.6);
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* ============================================
+           GEOGRAPHY SECTION
+        ============================================ */
+        .geography {
+            background: var(--deep-blue);
+            color: var(--cream);
+            padding: var(--section-padding) var(--container-padding);
+            position: relative;
+        }
+
+        .geography .section-title {
+            color: var(--cream);
+            max-width: 800px;
+        }
+
+        .geography .section-text {
+            color: rgba(245, 245, 243, 0.7);
+        }
+
+        .geography-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 5rem;
+        }
+
+        .geo-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 2.5rem;
+            transition: all 0.5s var(--ease-out-expo);
+        }
+
+        .geo-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-card);
+        }
+
+        .geo-card-icon {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+        }
+
+        .geo-card-icon svg {
+            width: 100%;
+            height: 100%;
+            stroke: currentColor;
+            stroke-width: 1.5;
+            fill: none;
+        }
+
+        .geo-card-title {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .geo-card-text {
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: rgba(245, 245, 243, 0.6);
+            line-height: 1.7;
+        }
+
+        /* ============================================
+           HISTORY SECTION
+        ============================================ */
+        .history {
+            background: var(--sand);
+            padding: var(--section-padding) var(--container-padding);
+        }
+
+        .history-content {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: var(--grid-gap);
+            align-items: start;
+        }
+
+        .timeline {
+            margin-top: 4rem;
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 2rem;
+            padding: 2rem 0;
+            border-bottom: 1px solid rgba(28, 28, 28, 0.1);
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 110px;
+            top: 2.5rem;
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 50%;
+        }
+
+        .timeline-year {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            font-style: italic;
+            color: var(--gold);
+        }
+
+        .timeline-text {
+            color: rgba(28, 28, 28, 0.7);
+            line-height: 1.7;
+        }
+
+        .history .about-image {
+            margin-left: 0;
+            margin-top: 6rem;
+        }
+
+        /* ============================================
+           CULTURE SECTION
+        ============================================ */
+        .culture {
+            background: var(--cream);
+            padding: var(--section-padding) var(--container-padding);
+        }
+
+        .culture-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--grid-gap);
+            margin-top: 4rem;
+        }
+
+        .culture-image {
+            overflow: hidden;
+            aspect-ratio: 1;
+        }
+
+        .culture-image img {
+            width: 100%;
+            height: 120%;
+            object-fit: cover;
+            transition: transform 1.5s var(--ease-out-expo);
+        }
+
+        .culture-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .culture-list {
+            list-style: none;
+            margin-top: 2rem;
+        }
+
+        .culture-list li {
+            padding: 2rem 0;
+            border-bottom: 1px solid rgba(28, 28, 28, 0.1);
+            display: grid;
+            grid-template-columns: 40px 1fr;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        .culture-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+        }
+
+        .culture-icon svg {
+            width: 100%;
+            height: 100%;
+            stroke: currentColor;
+            stroke-width: 1.5;
+            fill: none;
+        }
+
+        .culture-list li h4 {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 0.75rem;
+            color: var(--charcoal);
+        }
+
+        .culture-list li p {
+            font-size: 1rem;
+            font-weight: 300;
+            color: rgba(28, 28, 28, 0.6);
+            line-height: 1.7;
+        }
+
+        /* ============================================
+           LANDMARKS - HORIZONTAL SCROLL
+        ============================================ */
+        .landmarks {
+            background: var(--charcoal);
+            color: var(--cream);
+            padding: var(--section-padding) 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .landmarks-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding: 0 var(--container-padding);
+            margin-bottom: 4rem;
+        }
+
+        .landmarks-header-left {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .landmarks .section-label,
+        .landmarks .section-title {
+            padding: 0;
+            margin-bottom: 0;
+        }
+
+        .landmarks .section-title {
+            color: var(--cream);
+        }
+
+        /* Navigation Arrows */
+        .landmarks-nav {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .landmarks-nav-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            color: var(--cream);
+            font-size: 1.25rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s var(--ease-out-expo);
+        }
+
+        .landmarks-nav-btn:hover {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--charcoal);
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(197, 160, 89, 0.4);
+        }
+
+        .landmarks-nav-btn:active {
+            transform: scale(0.95);
+        }
+
+        .landmarks-nav-btn.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .landmarks-nav-btn svg {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .landmarks-container {
+            position: relative;
+        }
+
+        .landmarks-track {
+            display: flex;
+            gap: 2.5rem;
+            padding: 0 var(--container-padding);
+            cursor: grab;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .landmarks-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .landmarks-track:active {
+            cursor: grabbing;
+        }
+
+        .landmark-card {
+            flex: 0 0 380px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .landmark-card img {
+            width: 100%;
+            height: 520px;
+            object-fit: cover;
+            filter: grayscale(30%);
+            transition: all 1.5s var(--ease-out-expo);
+        }
+
+        .landmark-card:hover img {
+            transform: scale(1.08);
+            filter: grayscale(0%);
+        }
+
+        .landmark-card-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2.5rem;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+        }
+
+        .landmark-card h3 {
+            font-family: var(--font-serif);
+            font-size: 1.75rem;
+            font-style: italic;
+            margin-bottom: 0.75rem;
+        }
+
+        .landmark-card p {
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: rgba(245, 245, 243, 0.7);
+            line-height: 1.6;
+        }
+
+        /* Scroll Progress Indicator */
+        .landmarks-progress {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 3rem;
+            padding: 0 var(--container-padding);
+        }
+
+        .landmarks-progress-bar {
+            width: 60px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .landmarks-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        /* ============================================
+           ECONOMY SECTION
+        ============================================ */
+        .economy {
+            background: var(--cream);
+            padding: var(--section-padding) var(--container-padding);
+        }
+
+        .economy-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--grid-gap);
+            align-items: center;
+            margin-top: 4rem;
+        }
+
+        .economy-image {
+            overflow: hidden;
+        }
+
+        .economy-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 1.5s var(--ease-out-expo);
+        }
+
+        .economy-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .vision-highlight {
+            background: var(--deep-blue);
+            color: var(--cream);
+            padding: 3rem;
+            margin-top: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vision-highlight::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gold);
+        }
+
+        .vision-highlight h4 {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .vision-highlight p {
+            color: rgba(245, 245, 243, 0.8);
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        /* ============================================
+           CONCLUSION SECTION
+        ============================================ */
+        .conclusion {
+            background: var(--sand);
+            padding: calc(var(--section-padding) * 1.5) var(--container-padding);
+        }
+
+        .conclusion-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .conclusion .section-label {
+            justify-content: center;
+        }
+
+        .conclusion .section-label::before {
+            display: none;
+        }
+
+        .conclusion .section-title {
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .conclusion .section-text {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .fun-facts {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 5rem;
+            text-align: left;
+        }
+
+        .fun-fact {
+            background: var(--cream);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-card);
+            transition: transform 0.5s var(--ease-out-expo);
+        }
+
+        .fun-fact:hover {
+            transform: translateY(-10px);
+        }
+
+        .fun-fact-icon {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 1.5rem;
+            color: var(--gold);
+        }
+
+        .fun-fact-icon svg {
+            width: 100%;
+            height: 100%;
+            stroke-width: 1.5;
+        }
+
+        .fun-fact h4 {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 0.75rem;
+        }
+
+        .fun-fact p {
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: rgba(28, 28, 28, 0.6);
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           FOOTER
+        ============================================ */
+        footer {
+            background: var(--charcoal);
+            color: var(--cream);
+            padding: 5rem var(--container-padding);
+            text-align: center;
+        }
+
+        .footer-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .footer-subtitle {
+            color: rgba(245, 245, 243, 0.5);
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+
+        .footer-sources {
+            font-size: 0.75rem;
+            color: rgba(245, 245, 243, 0.3);
+            margin-top: 3rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* ============================================
+           RESPONSIVE - TABLET (max-width: 1024px)
+        ============================================ */
+        @media (max-width: 1024px) {
+            :root {
+                --container-padding: clamp(1.25rem, 4vw, 3rem);
+            }
+
+            .about-grid,
+            .culture-grid,
+            .economy-grid,
+            .history-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .about-image {
+                margin-left: 0;
+            }
+
+            .geography-grid,
+            .fun-facts {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            /* Landmarks header - stack on tablet */
+            .landmarks-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2rem;
+            }
+
+            .landmarks-nav {
+                align-self: flex-end;
+            }
+        }
+
+        /* ============================================
+           RESPONSIVE - MOBILE (max-width: 768px)
+        ============================================ */
+        @media (max-width: 768px) {
+            :root {
+                --container-padding: 1.25rem;
+                --section-padding: clamp(3.5rem, 8vh, 6rem);
+            }
+
+            /* Navigation - Mobile Optimization */
+            .nav {
+                padding: 1rem 1.25rem;
+            }
+
+            .nav-logo {
+                font-size: 0.7rem;
+                letter-spacing: 0.08em;
+            }
+
+            .nav-menu-btn {
+                padding: 0.6rem 1.25rem;
+                font-size: 0.65rem;
+            }
+
+            /* Menu overlay mobile */
+            .menu-overlay {
+                clip-path: circle(0% at calc(100% - 2rem) 2rem);
+            }
+
+            .menu-overlay.active {
+                clip-path: circle(150% at calc(100% - 2rem) 2rem);
+            }
+
+            .menu-links a {
+                font-size: clamp(1.75rem, 8vw, 2.5rem);
+            }
+
+            .menu-close {
+                top: 1rem;
+                right: 1.25rem;
+                width: 44px;
+                height: 44px;
+                font-size: 1.25rem;
+            }
+
+            /* Hero Section Mobile */
+            .hero {
+                padding-bottom: 4rem;
+            }
+
+            .hero-content {
+                padding-bottom: 2rem;
+            }
+
+            .hero-title {
+                font-size: clamp(2.75rem, 13vw, 4.5rem);
+                line-height: 1;
+            }
+
+            .hero-subtitle {
+                font-size: 0.75rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .hero-subtitle::before {
+                width: 25px;
+            }
+
+            .hero-scroll {
+                display: none;
+            }
+
+            /* Typography Mobile */
+            .section-label {
+                font-size: 0.75rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .section-label::before {
+                width: 25px;
+            }
+
+            .section-title {
+                font-size: clamp(1.75rem, 7vw, 2.75rem);
+                margin-bottom: 1.25rem;
+                line-height: 1.15;
+            }
+
+            .section-text {
+                font-size: 1rem;
+                line-height: 1.65;
+            }
+
+            /* Stats Grid Mobile */
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 1.5rem;
+            }
+
+            .stat-item {
+                padding-left: 1rem;
+            }
+
+            .stat-number {
+                font-size: clamp(1.75rem, 6vw, 2.5rem);
+            }
+
+            .stat-label {
+                font-size: 0.75rem;
+            }
+
+            /* Geography Cards Mobile */
+            .geography-grid {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+
+            .geo-card {
+                padding: 1.75rem;
+            }
+
+            .geo-card-icon {
+                font-size: 1.75rem;
+                margin-bottom: 1rem;
+            }
+
+            .geo-card-title {
+                font-size: 1.25rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .geo-card-text {
+                font-size: 0.9rem;
+            }
+
+            /* Timeline Mobile */
+            .timeline {
+                margin-top: 2.5rem;
+            }
+
+            .timeline-item {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+                padding: 1.5rem 0;
+            }
+
+            .timeline-item::before {
+                display: none;
+            }
+
+            .timeline-year {
+                font-size: 1.1rem;
+            }
+
+            .timeline-text {
+                font-size: 0.95rem;
+            }
+
+            /* Culture Section Mobile */
+            .culture-grid {
+                gap: 2.5rem;
+            }
+
+            .culture-image {
+                aspect-ratio: 4/3;
+            }
+
+            .culture-list li {
+                padding: 1.5rem 0;
+                gap: 1rem;
+            }
+
+            .culture-list li span {
+                font-size: 1.25rem;
+            }
+
+            .culture-list li h4 {
+                font-size: 1.25rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .culture-list li p {
+                font-size: 0.9rem;
+            }
+
+            /* Landmarks Section Mobile */
+            .landmarks {
+                padding: var(--section-padding) 0;
+            }
+
+            .landmarks-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1.5rem;
+                padding: 0 var(--container-padding);
+                margin-bottom: 2.5rem;
+            }
+
+            .landmarks .section-title {
+                font-size: clamp(1.5rem, 6vw, 2.25rem);
+                line-height: 1.2;
+            }
+
+            .landmarks-nav {
+                align-self: flex-start;
+            }
+
+            .landmarks-nav-btn {
+                width: 48px;
+                height: 48px;
+                font-size: 1rem;
+            }
+
+            .landmarks-nav-btn svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            .landmarks-track {
+                gap: 1.25rem;
+                padding: 0 var(--container-padding);
+            }
+
+            .landmark-card {
+                flex: 0 0 280px;
+            }
+
+            .landmark-card img {
+                height: 380px;
+            }
+
+            .landmark-card-content {
+                padding: 1.75rem;
+            }
+
+            .landmark-card h3 {
+                font-size: 1.35rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .landmark-card p {
+                font-size: 0.85rem;
+                line-height: 1.5;
+            }
+
+            .landmarks-progress {
+                margin-top: 2rem;
+            }
+
+            .landmarks-progress-bar {
+                width: 50px;
+            }
+
+            /* Economy Section Mobile */
+            .economy-grid {
+                gap: 2.5rem;
+            }
+
+            .vision-highlight {
+                padding: 2rem;
+                margin-top: 2rem;
+            }
+
+            .vision-highlight h4 {
+                font-size: 1.5rem;
+            }
+
+            .vision-highlight p {
+                font-size: 0.95rem;
+            }
+
+            /* Conclusion / Fun Facts Mobile */
+            .fun-facts {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+                margin-top: 3rem;
+            }
+
+            .fun-fact {
+                padding: 2rem;
+            }
+
+            .fun-fact-icon {
+                font-size: 1.75rem;
+                margin-bottom: 1rem;
+            }
+
+            .fun-fact h4 {
+                font-size: 1.25rem;
+            }
+
+            .fun-fact p {
+                font-size: 0.9rem;
+            }
+
+            /* Footer Mobile */
+            footer {
+                padding: 3.5rem var(--container-padding);
+            }
+
+            .footer-title {
+                font-size: clamp(1.5rem, 5vw, 2rem);
+            }
+
+            .footer-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .footer-sources {
+                font-size: 0.7rem;
+                margin-top: 2rem;
+            }
+        }
+
+        /* ============================================
+           RESPONSIVE - SMALL MOBILE (max-width: 480px)
+        ============================================ */
+        @media (max-width: 480px) {
+            :root {
+                --container-padding: 1rem;
+            }
+
+            .nav-logo {
+                font-size: 0.65rem;
+            }
+
+            .nav-menu-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.6rem;
+            }
+
+            .hero-title {
+                font-size: clamp(2.25rem, 12vw, 3.5rem);
+            }
+
+            .hero-subtitle {
+                font-size: 0.65rem;
+            }
+
+            .section-title {
+                font-size: clamp(1.5rem, 6.5vw, 2.25rem);
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .landmark-card {
+                flex: 0 0 260px;
+            }
+
+            .landmark-card img {
+                height: 340px;
+            }
+
+            .landmarks-nav-btn {
+                width: 44px;
+                height: 44px;
+            }
+
+            .vision-highlight {
+                padding: 1.5rem;
+            }
+
+            .vision-highlight h4 {
+                font-size: 1.35rem;
+            }
+
+            .fun-fact {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loader -->
+    <div class="loader">
+        <div class="loader-text">Saudi Arabia</div>
+        <div class="loader-line"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="#" class="nav-logo">Saudi Arabia</a>
+        <button class="nav-menu-btn" id="menuOpen">Menu</button>
+    </nav>
+
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" id="menuOverlay">
+        <button class="menu-close" id="menuClose">✕</button>
+        <ul class="menu-links">
+            <li><a href="#about">Жалпы мәліметтер</a></li>
+            <li><a href="#geography">География</a></li>
+            <li><a href="#history">Тарих</a></li>
+            <li><a href="#culture">Мәдениет</a></li>
+            <li><a href="#landmarks">Көрнекті орындар</a></li>
+            <li><a href="#economy">Экономика</a></li>
+        </ul>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-bg">
+            <img src="assets/images/hero_desert_aerial_1768042084939.png" alt="Сауд Арабиясының шөлі" id="heroImg">
+        </div>
+        <div class="hero-content">
+            <p class="hero-subtitle">География пәнінен презентация</p>
+            <h1 class="hero-title">
+                <span class="line"><span>Сауд</span></span>
+                <span class="line"><span>Арабиясы</span></span>
+            </h1>
+        </div>
+        <div class="hero-scroll">Scroll</div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="about-grid">
+            <div class="about-content">
+                <span class="section-label">Жалпы мәліметтер</span>
+                <h2 class="section-title">Құм мен технологиялар патшалығы</h2>
+                <p class="section-text">
+                    Сауд Арабиясы Патшалығы — Араб түбегіндегі ең ірі мемлекет, үш құрлықтың қиылысында орналасқан.
+                    Ежелгі дәстүрлер мен ультразаманауи технологиялар қатар өмір сүретін, шексіз шөлдер мен футуристік
+                    қалалар көршілес орын алған ел.
+                </p>
+                <p class="section-text" style="margin-top: 1.5rem;">
+                    Ресми атауы: Сауд Арабиясы Патшалығы (المملكة العربية السعودية). Астанасы — Эр-Рияд, әлемдегі ең
+                    жылдам дамып келе жатқан қалалардың бірі.
+                </p>
+
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">2.15M</div>
+                        <div class="stat-label">км² жалпы аумақ</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">~40M</div>
+                        <div class="stat-label">адам халық саны</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">13</div>
+                        <div class="stat-label">әкімшілік аймақ</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">1932</div>
+                        <div class="stat-label">құрылған жыл</div>
+                    </div>
+                </div>
+            </div>
+            <div class="about-image">
+                <img src="assets/images/landmark_riyadh_1768042056760.png" alt="Эр-Рияд">
+            </div>
+        </div>
+    </section>
+
+    <!-- Geography Section -->
+    <section class="geography" id="geography">
+        <span class="section-label">География</span>
+        <h2 class="section-title">Контрасттар мен шексіз кеңістіктер елі</h2>
+        <p class="section-text">
+            Сауд Арабиясы Араб түбегінің шамамен 80%-ын алып жатыр. Елдің рельефі батысында аласа таулары бар кең шөлді
+            үстірттерден тұрады.
+        </p>
+
+        <div class="geography-grid">
+            <div class="geo-card">
+                <span class="geo-card-icon"><svg viewBox="0 0 24 24">
+                        <path d="M3 17h18M5 17c0-4 3-8 7-8s7 4 7 8M8 17c0-2.5 1.8-5 4-5s4 2.5 4 5" />
+                    </svg></span>
+                <h3 class="geo-card-title">Шөлдер</h3>
+                <p class="geo-card-text">
+                    Руб-эль-Хали — әлемдегі ең үлкен құмды шөл, ауданы 650 000 км². Құм төбелері 250 метрге жетеді.
+                </p>
+            </div>
+            <div class="geo-card">
+                <span class="geo-card-icon"><svg viewBox="0 0 24 24">
+                        <path d="M12 3L4 14h5v7l7-11h-5V3z" fill="none" />
+                        <path d="M8 21l4-7 4 7M4 21h16" />
+                    </svg></span>
+                <h3 class="geo-card-title">Таулар</h3>
+                <p class="geo-card-text">
+                    Асир және Хиджаз таулары батыс жағалау бойымен созылған. Ең биік нүктесі — Джабаль Сауда (3133 м).
+                </p>
+            </div>
+            <div class="geo-card">
+                <span class="geo-card-icon"><svg viewBox="0 0 24 24">
+                        <path d="M2 12c2-2 4-3 6-3s4 1 6 3 4 3 6 3M2 17c2-2 4-3 6-3s4 1 6 3 4 3 6 3" />
+                    </svg></span>
+                <h3 class="geo-card-title">Жағалау</h3>
+                <p class="geo-card-text">
+                    Батысынан Қызыл теңіз, шығысынан Парсы шығанағы жуып жатыр. Жағалау — 2640 км бірегей рифтермен.
+                </p>
+            </div>
+            <div class="geo-card">
+                <span class="geo-card-icon"><svg viewBox="0 0 24 24">
+                        <path d="M12 3v18M12 3a4 4 0 014 4c0 2-2 3-4 3s-4-1-4-3a4 4 0 014-4M8 14h8M6 18h12" />
+                    </svg></span>
+                <h3 class="geo-card-title">Климат</h3>
+                <p class="geo-card-text">
+                    Тропикалық шөл климаты. Жазда +50°C дейін. Жауын-шашын өте аз — жылына 100 мм-ден аз.
+                </p>
+            </div>
+            <div class="geo-card">
+                <span class="geo-card-icon"><svg viewBox="0 0 24 24">
+                        <path d="M12 2v6l3-3M12 8l-3-3M12 8c-4 0-7 3-7 7a7 7 0 1014 0c0-4-3-7-7-7z" />
+                    </svg></span>
+                <h3 class="geo-card-title">Су ресурстары</h3>
+                <p class="geo-card-text">
+                    Тұрақты өзендер мен көлдер жоқ. Әлемдегі ең ірі теңіз суын тұщыландыру өндірушісі.
+                </p>
+            </div>
+            <div class="geo-card">
+                <span class="geo-card-icon"><svg viewBox="0 0 24 24">
+                        <path d="M12 3c-1 4-4 6-4 10a4 4 0 108 0c0-4-3-6-4-10z" />
+                        <path d="M6 21c1-2 3-3 6-3s5 1 6 3" />
+                    </svg></span>
+                <h3 class="geo-card-title">Флора және фауна</h3>
+                <p class="geo-card-text">
+                    Шөлдерде араб ориксі, газельдер мекендейді. Оазистерде құрма пальмалары өседі.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- History Section -->
+    <section class="history" id="history">
+        <span class="section-label">Тарих</span>
+        <h2 class="section-title">Ежелгі керуен жолдарынан заманауи патшалыққа</h2>
+
+        <div class="history-content">
+            <div>
+                <p class="section-text">
+                    Араб түбегінің тарихы терең ежелгі заманға кетеді. Мұнда ислам дүниесі — миллиардтаған адамды
+                    біріктірген әлемдік діндердің бірі пайда болды.
+                </p>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <span class="timeline-year">б.з.д. III мың.</span>
+                        <p class="timeline-text">Түбектегі алғашқы қоныстар. Хош иістермен сауда дамуы.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">VII ғасыр</span>
+                        <p class="timeline-text">Исламның туындауы. Мұхаммед пайғамбар Мәдинеде алғашқы ислам мемлекетін
+                            құрды.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">1744</span>
+                        <p class="timeline-text">Мұхаммед ибн Сауд бірінші Сауд мемлекетін құрды.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">1932</span>
+                        <p class="timeline-text">Абдул-Азиз ибн Сауд Сауд Арабиясы Патшалығын жариялады.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">1938</span>
+                        <p class="timeline-text">Әлемдегі ең үлкен мұнай қорларының ашылуы.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">2016</span>
+                        <p class="timeline-text">Vision 2030 бағдарламасының іске қосылуы.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="about-image">
+                <img src="assets/images/landmark_alula_1768042015191.png" alt="Әл-Ула">
+            </div>
+        </div>
+    </section>
+
+    <!-- Culture Section -->
+    <section class="culture" id="culture">
+        <span class="section-label">Мәдениет</span>
+        <h2 class="section-title">Ғасырларға созылған дәстүрлер</h2>
+
+        <div class="culture-grid">
+            <div class="culture-image">
+                <img src="assets/images/culture_traditional_1768042098987.png" alt="Дәстүрлі мәдениет">
+            </div>
+            <div>
+                <p class="section-text">
+                    Сауд мәдениеті ислам дәстүрлері мен бедуин мұрасына терең тамыр жайған. Қонақжайлылық қасиетті борыш
+                    саналады.
+                </p>
+
+                <ul class="culture-list">
+                    <li>
+                        <span class="culture-icon"><svg viewBox="0 0 24 24">
+                                <path d="M12 2L8 8h8L12 2zM4 22h16v-2H4v2zm0-4l8-8 8 8H4z" />
+                            </svg></span>
+                        <div>
+                            <h4>Ислам</h4>
+                            <p>Екі қасиетті қала — Мекке және Мәдина — осында орналасқан. Жыл сайын миллиондаған қажылар
+                                келеді.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="culture-icon"><svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 2C9 2 7 4 7 7v4c0 2 1 4 5 4s5-2 5-4V7c0-3-2-5-5-5zM6 21v-3c0-1 1-2 2-2h8c1 0 2 1 2 2v3" />
+                            </svg></span>
+                        <div>
+                            <h4>Дәстүрлі киім</h4>
+                            <p>Ерлер тобе және гутра киеді. Әйелдер дәстүрлі абайя киеді.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="culture-icon"><svg viewBox="0 0 24 24">
+                                <path d="M12 3l-8 9h5v9h6v-9h5L12 3z" />
+                            </svg></span>
+                        <div>
+                            <h4>Өнер</h4>
+                            <p>Араб каллиграфиясы, арда биі, поэзия және музыка. Кино мен өнер дамуда.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="culture-icon"><svg viewBox="0 0 24 24">
+                                <circle cx="12" cy="8" r="5" />
+                                <path d="M12 13c-5 0-9 2-9 5v3h18v-3c0-3-4-5-9-5z" />
+                            </svg></span>
+                        <div>
+                            <h4>Ас мәзірі</h4>
+                            <p>Капса, мутаббак, хумус. Құрма мен кофе — қонақжайылық символдары.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Landmarks Section -->
+    <section class="landmarks" id="landmarks">
+        <div class="landmarks-header">
+            <div class="landmarks-header-left">
+                <span class="section-label">Көрнекті орындар</span>
+                <h2 class="section-title">Араб түбегінің қазыналары</h2>
+            </div>
+            <div class="landmarks-nav">
+                <button class="landmarks-nav-btn" id="landmarksPrev" aria-label="Артқа">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <button class="landmarks-nav-btn" id="landmarksNext" aria-label="Алға">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="9 6 15 12 9 18"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="landmarks-container">
+            <div class="landmarks-track" id="landmarksTrack">
+                <div class="landmark-card">
+                    <img src="assets/images/landmark_mecca_1768042043429.png" alt="Мекке">
+                    <div class="landmark-card-content">
+                        <h3>Мекке</h3>
+                        <p>Ең қасиетті қала. Кааба — мұсылмандардың басты ғибадатханасы орналасқан.</p>
+                    </div>
+                </div>
+                <div class="landmark-card">
+                    <img src="assets/images/landmark_medina_1768042667372.png" alt="Мәдина">
+                    <div class="landmark-card-content">
+                        <h3>Мәдина</h3>
+                        <p>Екінші қасиетті қала. Пайғамбардың мешіті мен мазары орналасқан.</p>
+                    </div>
+                </div>
+                <div class="landmark-card">
+                    <img src="assets/images/landmark_alula_1768042015191.png" alt="Әл-Ула">
+                    <div class="landmark-card-content">
+                        <h3>Әл-Ула</h3>
+                        <p>ЮНЕСКО мұрасы — набатейлік зираттары бар ежелгі оазис.</p>
+                    </div>
+                </div>
+                <div class="landmark-card">
+                    <img src="assets/images/landmark_neom_1768042029492.png" alt="NEOM">
+                    <div class="landmark-card-content">
+                        <h3>NEOM — The Line</h3>
+                        <p>170 км ұзындықтағы футуристік сызықтық қала жобасы.</p>
+                    </div>
+                </div>
+                <div class="landmark-card">
+                    <img src="assets/images/landmark_riyadh_1768042056760.png" alt="Эр-Рияд">
+                    <div class="landmark-card-content">
+                        <h3>Эр-Рияд</h3>
+                        <p>Заманауи астана. Kingdom Centre Tower — елдің символы.</p>
+                    </div>
+                </div>
+                <div class="landmark-card">
+                    <img src="assets/images/landmark_jeddah_1768042145803.png" alt="Джедда">
+                    <div class="landmark-card-content">
+                        <h3>Джедда</h3>
+                        <p>«Меккеге қақпа» — тарихи Әл-Балад және атақты бүркіт.</p>
+                    </div>
+                </div>
+                <div class="landmark-card">
+                    <img src="assets/images/geography_redsea_1768042113017.png" alt="Қызыл теңіз">
+                    <div class="landmark-card-content">
+                        <h3>Қызыл теңіз</h3>
+                        <p>Маржан рифтері мен сәнді курорттар.</p>
+                    </div>
+                </div>
+                <div class="landmark-card">
+                    <img src="assets/images/landmark_edge_1768042682815.png" alt="Edge of World">
+                    <div class="landmark-card-content">
+                        <h3>Edge of the World</h3>
+                        <p>Керемет жартас шығыңқысы — шексіз шөл пейзажы.</p>
+                    </div>
+                </div>
+                <div class="landmark-card">
+                    <img src="assets/images/landmark_diriyah_1768042712655.png" alt="Дирия">
+                    <div class="landmark-card-content">
+                        <h3>Дирия</h3>
+                        <p>ЮНЕСКО мұрасы — Сауд мемлекетінің тарихи бесігі.</p>
+                    </div>
+                </div>
+                <div class="landmark-card">
+                    <img src="assets/images/culture_camels_1768042697786.png" alt="Бедуин мұрасы">
+                    <div class="landmark-card-content">
+                        <h3>Бедуин мұрасы</h3>
+                        <p>Дәстүрлі көшпелі өмір салты. Түйе караваны.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="landmarks-progress">
+            <div class="landmarks-progress-bar">
+                <div class="landmarks-progress-fill" id="landmarksProgress"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Economy Section -->
+    <section class="economy" id="economy">
+        <span class="section-label">Экономика</span>
+        <h2 class="section-title">Мұнайдан болашақ технологияларына</h2>
+
+        <div class="economy-grid">
+            <div>
+                <p class="section-text">
+                    Сауд Арабиясында әлемдегі ең үлкен мұнай қорлары бар — 260 миллиард баррельден астам. Saudi Aramco —
+                    тарихтағы ең қымбат компания.
+                </p>
+                <p class="section-text" style="margin-top: 1.5rem;">
+                    Ел Vision 2030 аясында экономиканы әртараптандыруда. Туризм, технологиялар және жаңартылатын
+                    энергетика дамуда.
+                </p>
+
+                <div class="vision-highlight">
+                    <h4>Vision 2030</h4>
+                    <p>
+                        2016 жылы ұсынылған өзгерту жоспары. Мақсаттары: мұнайға тәуелділікті азайту, жылына 100 млн
+                        турист қабылдау, азаматтар өмірін жақсарту.
+                    </p>
+                </div>
+            </div>
+            <div class="economy-image">
+                <img src="assets/images/economy_vision2030_1768042128438.png" alt="Vision 2030">
+            </div>
+        </div>
+    </section>
+
+    <!-- Conclusion Section -->
+    <section class="conclusion" id="conclusion">
+        <div class="conclusion-inner">
+            <span class="section-label">Қорытынды</span>
+            <h2 class="section-title">Болашаққа ұмтылған ел</h2>
+            <p class="section-text">
+                Сауд Арабиясы — дәстүрлер мен модернизация батыл жоспарларын ұштастыратын ерекше мемлекет. Шөлдерден
+                NEOM-ға дейін — таңғажайып контрасттар елі.
+            </p>
+
+            <div class="fun-facts">
+                <div class="fun-fact">
+                    <div class="fun-fact-icon"><svg viewBox="0 0 24 24" stroke="currentColor" fill="none">
+                            <circle cx="12" cy="12" r="10" />
+                            <path
+                                d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
+                        </svg></div>
+                    <h4>12-ші орын</h4>
+                    <p>Әлемде аумақ бойынша. Бүкіл Батыс Еуропадан үлкен.</p>
+                </div>
+                <div class="fun-fact">
+                    <div class="fun-fact-icon"><svg viewBox="0 0 24 24" stroke="currentColor" fill="none">
+                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
+                        </svg></div>
+                    <h4>100M+ турист</h4>
+                    <p>2025 жылы Vision 2030 мақсатына жетті.</p>
+                </div>
+                <div class="fun-fact">
+                    <div class="fun-fact-icon"><svg viewBox="0 0 24 24" stroke="currentColor" fill="none">
+                            <rect x="3" y="10" width="18" height="11" rx="2" />
+                            <path d="M7 10V7a5 5 0 0110 0v3" />
+                        </svg></div>
+                    <h4>85% Vision 2030</h4>
+                    <p>Инициативалардың 85%-ы орындалған немесе жүріп жатыр.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <h3 class="footer-title">Назарларыңызға рахмет!</h3>
+        <p class="footer-subtitle">География пәнінен презентация • 2026</p>
+        <p class="footer-sources">
+            Дереккөздер: Wikipedia, Vision 2030 Saudi Arabia, Saudi Tourism Authority
+        </p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // ============================================
+        // LENIS SMOOTH SCROLL
+        // ============================================
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smooth: true
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Connect GSAP ScrollTrigger to Lenis
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => {
+            lenis.raf(time * 1000);
+        });
+        gsap.ticker.lagSmoothing(0);
+
+        // ============================================
+        // LOADER
+        // ============================================
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.loader').classList.add('done');
+                // Start animations after loader
+                initAnimations();
+            }, 2400);
+        });
+
+        // ============================================
+        // NAVIGATION
+        // ============================================
+        const menuOpen = document.getElementById('menuOpen');
+        const menuClose = document.getElementById('menuClose');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const menuLinks = document.querySelectorAll('.menu-links a');
+
+        menuOpen.addEventListener('click', () => {
+            menuOverlay.classList.add('active');
+            lenis.stop();
+        });
+
+        menuClose.addEventListener('click', closeMenu);
+
+        menuLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = link.getAttribute('href');
+                closeMenu();
+                setTimeout(() => {
+                    lenis.scrollTo(target, { duration: 1.5 });
+                }, 500);
+            });
+        });
+
+        function closeMenu() {
+            menuOverlay.classList.remove('active');
+            lenis.start();
+        }
+
+        // ============================================
+        // GSAP ANIMATIONS
+        // ============================================
+        gsap.registerPlugin(ScrollTrigger);
+
+        function initAnimations() {
+            // Hero Title Reveal
+            gsap.to('.hero-title .line span', {
+                y: 0,
+                duration: 1.5,
+                stagger: 0.15,
+                ease: 'power3.out'
+            });
+
+            gsap.from('.hero-subtitle', {
+                opacity: 0,
+                y: 30,
+                duration: 1,
+                delay: 0.5,
+                ease: 'power3.out'
+            });
+
+            // Parallax Hero Image
+            gsap.to('#heroImg', {
+                yPercent: 20,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: '.hero',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: true
+                }
+            });
+
+            // Section Labels & Titles
+            gsap.utils.toArray('.section-label').forEach(el => {
+                gsap.from(el, {
+                    opacity: 0,
+                    x: -30,
+                    duration: 1,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 85%'
+                    }
+                });
+            });
+
+            gsap.utils.toArray('.section-title').forEach(el => {
+                gsap.from(el, {
+                    opacity: 0,
+                    y: 50,
+                    duration: 1.2,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 85%'
+                    }
+                });
+            });
+
+            gsap.utils.toArray('.section-text').forEach(el => {
+                gsap.from(el, {
+                    opacity: 0,
+                    y: 30,
+                    duration: 1,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 85%'
+                    }
+                });
+            });
+
+            // Stats Animation
+            gsap.utils.toArray('.stat-item').forEach((el, i) => {
+                gsap.from(el, {
+                    opacity: 0,
+                    y: 40,
+                    duration: 0.8,
+                    delay: i * 0.1,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 85%'
+                    }
+                });
+            });
+
+            // About Image Parallax
+            gsap.utils.toArray('.about-image img').forEach(img => {
+                gsap.to(img, {
+                    yPercent: -15,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: img.parentElement,
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        scrub: true
+                    }
+                });
+            });
+
+            // Geo Cards Stagger
+            gsap.utils.toArray('.geo-card').forEach((card, i) => {
+                gsap.from(card, {
+                    opacity: 0,
+                    y: 60,
+                    duration: 0.8,
+                    delay: i * 0.08,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 85%'
+                    }
+                });
+            });
+
+            // Timeline Items
+            gsap.utils.toArray('.timeline-item').forEach((item, i) => {
+                gsap.from(item, {
+                    opacity: 0,
+                    x: -30,
+                    duration: 0.8,
+                    delay: i * 0.1,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: item,
+                        start: 'top 85%'
+                    }
+                });
+            });
+
+            // Culture List Items
+            gsap.utils.toArray('.culture-list li').forEach((item, i) => {
+                gsap.from(item, {
+                    opacity: 0,
+                    y: 30,
+                    duration: 0.8,
+                    delay: i * 0.1,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: item,
+                        start: 'top 85%'
+                    }
+                });
+            });
+
+            // Landmark Cards
+            gsap.utils.toArray('.landmark-card').forEach((card, i) => {
+                gsap.from(card, {
+                    opacity: 0,
+                    y: 40,
+                    duration: 0.8,
+                    delay: i * 0.05,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: '.landmarks',
+                        start: 'top 70%'
+                    }
+                });
+            });
+
+            // Fun Facts
+            gsap.utils.toArray('.fun-fact').forEach((fact, i) => {
+                gsap.from(fact, {
+                    opacity: 0,
+                    y: 50,
+                    duration: 0.8,
+                    delay: i * 0.15,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: fact,
+                        start: 'top 85%'
+                    }
+                });
+            });
+
+            // Vision Highlight
+            gsap.from('.vision-highlight', {
+                opacity: 0,
+                x: -50,
+                duration: 1,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: '.vision-highlight',
+                    start: 'top 85%'
+                }
+            });
+        }
+
+        // ============================================
+        // LANDMARKS ENHANCED SCROLL SYSTEM
+        // ============================================
+        const track = document.getElementById('landmarksTrack');
+        const prevBtn = document.getElementById('landmarksPrev');
+        const nextBtn = document.getElementById('landmarksNext');
+        const progressFill = document.getElementById('landmarksProgress');
+        const landmarksSection = document.getElementById('landmarks');
+
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+        const scrollAmount = 410; // Card width + gap
+
+        // Update progress bar and button states
+        function updateScrollState() {
+            const maxScroll = track.scrollWidth - track.clientWidth;
+            const progress = maxScroll > 0 ? (track.scrollLeft / maxScroll) * 100 : 0;
+            progressFill.style.width = `${progress}%`;
+
+            // Update button states
+            prevBtn.classList.toggle('disabled', track.scrollLeft <= 10);
+            nextBtn.classList.toggle('disabled', track.scrollLeft >= maxScroll - 10);
+        }
+
+        // Scroll event listener
+        track.addEventListener('scroll', updateScrollState);
+
+        // Initial state
+        setTimeout(updateScrollState, 100);
+
+        // Arrow Navigation
+        prevBtn.addEventListener('click', () => {
+            track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        });
+
+        nextBtn.addEventListener('click', () => {
+            track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        });
+
+        // Keyboard navigation when focused on landmarks section
+        landmarksSection.setAttribute('tabindex', '0');
+        landmarksSection.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                e.preventDefault();
+            } else if (e.key === 'ArrowRight') {
+                track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                e.preventDefault();
+            }
+        });
+
+        // Mouse Wheel → Horizontal Scroll (while hovering over landmarks)
+        landmarksSection.addEventListener('wheel', (e) => {
+            // Only intercept vertical scroll (deltaY)
+            if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+                const maxScroll = track.scrollWidth - track.clientWidth;
+                const atStart = track.scrollLeft <= 0;
+                const atEnd = track.scrollLeft >= maxScroll - 1;
+
+                // Allow normal page scroll if at edges and scrolling in that direction
+                if ((atStart && e.deltaY < 0) || (atEnd && e.deltaY > 0)) {
+                    return; // Let page scroll normally
+                }
+
+                e.preventDefault();
+
+                // Convert vertical wheel to horizontal scroll with smooth animation
+                const scrollDistance = e.deltaY * 2;
+                track.scrollBy({ left: scrollDistance, behavior: 'auto' });
+            }
+        }, { passive: false });
+
+        // Drag to Scroll
+        track.addEventListener('mousedown', (e) => {
+            isDown = true;
+            track.style.cursor = 'grabbing';
+            startX = e.pageX - track.offsetLeft;
+            scrollLeft = track.scrollLeft;
+        });
+
+        track.addEventListener('mouseleave', () => {
+            isDown = false;
+            track.style.cursor = 'grab';
+        });
+
+        track.addEventListener('mouseup', () => {
+            isDown = false;
+            track.style.cursor = 'grab';
+        });
+
+        track.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - track.offsetLeft;
+            const walk = (x - startX) * 2;
+            track.scrollLeft = scrollLeft - walk;
+        });
+
+        // Touch events for mobile
+        track.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].pageX - track.offsetLeft;
+            scrollLeft = track.scrollLeft;
+        }, { passive: true });
+
+        track.addEventListener('touchmove', (e) => {
+            const x = e.touches[0].pageX - track.offsetLeft;
+            const walk = (x - startX) * 2;
+            track.scrollLeft = scrollLeft - walk;
+        }, { passive: true });
+    </script>
+</body>
+
+</html>
