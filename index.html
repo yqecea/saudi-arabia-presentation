@@ -768,6 +768,9 @@
             scroll-behavior: smooth;
             scrollbar-width: none;
             -ms-overflow-style: none;
+            -webkit-overflow-scrolling: touch;
+            /* Better scroll-snap for mobile */
+            scroll-snap-type: x proximity;
         }
 
         .landmarks-track::-webkit-scrollbar {
@@ -776,12 +779,15 @@
 
         .landmarks-track:active {
             cursor: grabbing;
+            scroll-snap-type: none;
+            /* Disable snap while dragging */
         }
 
         .landmark-card {
             flex: 0 0 380px;
             position: relative;
             overflow: hidden;
+            scroll-snap-align: start;
         }
 
         .landmark-card img {
@@ -1273,10 +1279,21 @@
             .landmarks-track {
                 gap: 1.25rem;
                 padding: 0 var(--container-padding);
+                scroll-snap-type: x mandatory;
+                /* Allow native touch scrolling on mobile */
+                touch-action: pan-x pan-y;
             }
 
             .landmark-card {
                 flex: 0 0 280px;
+                scroll-snap-align: center;
+                /* Provide visual feedback on touch */
+                transition: transform 0.2s ease, opacity 0.2s ease;
+            }
+
+            .landmark-card:active {
+                transform: scale(0.98);
+                opacity: 0.9;
             }
 
             .landmark-card img {
@@ -1896,15 +1913,43 @@
         gsap.ticker.lagSmoothing(0);
 
         // ============================================
-        // LOADER
+        // LOADER - Enhanced with mobile-safe fallbacks
         // ============================================
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.querySelector('.loader').classList.add('done');
-                // Start animations after loader
+        (function () {
+            const loader = document.querySelector('.loader');
+            let loaderDismissed = false;
+            const CSS_ANIMATION_DURATION = 2000; // Match CSS animation
+            const MAX_WAIT_TIME = 5000; // Fallback: never wait more than 5s
+
+            function dismissLoader() {
+                if (loaderDismissed) return;
+                loaderDismissed = true;
+                loader.classList.add('done');
                 initAnimations();
-            }, 2400);
-        });
+            }
+
+            // Main trigger: wait for load event + CSS animation to complete
+            function onPageReady() {
+                setTimeout(dismissLoader, CSS_ANIMATION_DURATION);
+            }
+
+            // Handle already loaded pages (cached/fast loads)
+            if (document.readyState === 'complete') {
+                onPageReady();
+            } else {
+                window.addEventListener('load', onPageReady);
+            }
+
+            // Fallback: dismiss after MAX_WAIT_TIME no matter what
+            setTimeout(dismissLoader, MAX_WAIT_TIME);
+
+            // Mobile visibility: dismiss if user switches away and back
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden && document.readyState === 'complete') {
+                    setTimeout(dismissLoader, 300);
+                }
+            });
+        })();
 
         // ============================================
         // NAVIGATION
@@ -2129,7 +2174,8 @@
         }
 
         // ============================================
-        // LANDMARKS ENHANCED SCROLL SYSTEM
+        // LANDMARKS ENHANCED SCROLL SYSTEM v2.0
+        // Improved mobile touch handling with momentum
         // ============================================
         const track = document.getElementById('landmarksTrack');
         const prevBtn = document.getElementById('landmarksPrev');
@@ -2137,10 +2183,20 @@
         const progressFill = document.getElementById('landmarksProgress');
         const landmarksSection = document.getElementById('landmarks');
 
+        // Configuration
+        const isMobile = () => window.innerWidth <= 768;
+        const getScrollAmount = () => isMobile() ? 300 : 410; // Adaptive scroll amount
+
+        // State management
         let isDown = false;
-        let startX;
-        let scrollLeft;
-        const scrollAmount = 410; // Card width + gap
+        let startX = 0;
+        let startY = 0;
+        let scrollLeft = 0;
+        let velocity = 0;
+        let momentumId = null;
+        let lastMoveTime = 0;
+        let lastMoveX = 0;
+        let isScrollingHorizontally = null; // null = undetermined, true = horizontal, false = vertical
 
         // Update progress bar and button states
         function updateScrollState() {
@@ -2161,27 +2217,30 @@
 
         // Arrow Navigation
         prevBtn.addEventListener('click', () => {
-            track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
         });
 
         nextBtn.addEventListener('click', () => {
-            track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
         });
 
         // Keyboard navigation when focused on landmarks section
         landmarksSection.setAttribute('tabindex', '0');
         landmarksSection.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowLeft') {
-                track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
                 e.preventDefault();
             } else if (e.key === 'ArrowRight') {
-                track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
                 e.preventDefault();
             }
         });
 
-        // Mouse Wheel → Horizontal Scroll (while hovering over landmarks)
+        // Mouse Wheel → Horizontal Scroll (desktop only)
         landmarksSection.addEventListener('wheel', (e) => {
+            // Skip on mobile - let native touch scrolling work
+            if (isMobile()) return;
+
             // Only intercept vertical scroll (deltaY)
             if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
                 const maxScroll = track.scrollWidth - track.clientWidth;
@@ -2201,20 +2260,25 @@
             }
         }, { passive: false });
 
-        // Drag to Scroll
+        // ============================================
+        // MOUSE DRAG (Desktop)
+        // ============================================
         track.addEventListener('mousedown', (e) => {
             isDown = true;
             track.style.cursor = 'grabbing';
             startX = e.pageX - track.offsetLeft;
             scrollLeft = track.scrollLeft;
+            cancelMomentum();
         });
 
         track.addEventListener('mouseleave', () => {
+            if (isDown) applyMomentum();
             isDown = false;
             track.style.cursor = 'grab';
         });
 
         track.addEventListener('mouseup', () => {
+            if (isDown) applyMomentum();
             isDown = false;
             track.style.cursor = 'grab';
         });
@@ -2223,21 +2287,132 @@
             if (!isDown) return;
             e.preventDefault();
             const x = e.pageX - track.offsetLeft;
-            const walk = (x - startX) * 2;
+            const walk = (x - startX) * 1.5;
             track.scrollLeft = scrollLeft - walk;
+
+            // Calculate velocity for momentum
+            const now = Date.now();
+            if (lastMoveTime) {
+                velocity = (lastMoveX - x) / (now - lastMoveTime) * 15;
+            }
+            lastMoveTime = now;
+            lastMoveX = x;
         });
 
-        // Touch events for mobile
+        // ============================================
+        // TOUCH HANDLING (Mobile) - Enhanced
+        // ============================================
         track.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].pageX - track.offsetLeft;
+            const touch = e.touches[0];
+            startX = touch.pageX;
+            startY = touch.pageY;
             scrollLeft = track.scrollLeft;
+            isScrollingHorizontally = null; // Reset direction detection
+            cancelMomentum();
+            lastMoveTime = Date.now();
+            lastMoveX = touch.pageX;
+            velocity = 0;
         }, { passive: true });
 
         track.addEventListener('touchmove', (e) => {
-            const x = e.touches[0].pageX - track.offsetLeft;
-            const walk = (x - startX) * 2;
-            track.scrollLeft = scrollLeft - walk;
+            if (!startX) return;
+
+            const touch = e.touches[0];
+            const deltaX = touch.pageX - startX;
+            const deltaY = touch.pageY - startY;
+
+            // Determine scroll direction on first significant movement
+            if (isScrollingHorizontally === null) {
+                const absDeltaX = Math.abs(deltaX);
+                const absDeltaY = Math.abs(deltaY);
+
+                // Need enough movement to determine direction (12px threshold)
+                if (Math.max(absDeltaX, absDeltaY) > 12) {
+                    // If horizontal movement is stronger (1.5x threshold for better accuracy)
+                    isScrollingHorizontally = absDeltaX > absDeltaY * 1.5;
+                }
+            }
+
+            // Only handle horizontal scrolling
+            if (isScrollingHorizontally === true) {
+                // Calculate new scroll position with improved sensitivity
+                const walk = deltaX * 1.2;
+                track.scrollLeft = scrollLeft - walk;
+
+                // Calculate velocity for momentum
+                const now = Date.now();
+                const timeDelta = now - lastMoveTime;
+                if (timeDelta > 0) {
+                    velocity = (lastMoveX - touch.pageX) / timeDelta * 15;
+                }
+                lastMoveTime = now;
+                lastMoveX = touch.pageX;
+            }
+            // If vertical scrolling, do nothing - let the page scroll naturally
         }, { passive: true });
+
+        track.addEventListener('touchend', (e) => {
+            if (isScrollingHorizontally === true) {
+                applyMomentum();
+            }
+            // Reset state
+            isScrollingHorizontally = null;
+            startX = 0;
+            startY = 0;
+        }, { passive: true });
+
+        // ============================================
+        // MOMENTUM SCROLLING
+        // ============================================
+        function cancelMomentum() {
+            if (momentumId) {
+                cancelAnimationFrame(momentumId);
+                momentumId = null;
+            }
+        }
+
+        function applyMomentum() {
+            cancelMomentum();
+
+            // Apply momentum if velocity is significant
+            if (Math.abs(velocity) > 0.5) {
+                const friction = 0.95;
+                const minVelocity = 0.5;
+
+                function momentumStep() {
+                    velocity *= friction;
+
+                    if (Math.abs(velocity) < minVelocity) {
+                        snapToNearestCard();
+                        return;
+                    }
+
+                    track.scrollLeft += velocity;
+                    momentumId = requestAnimationFrame(momentumStep);
+                }
+
+                momentumId = requestAnimationFrame(momentumStep);
+            } else {
+                snapToNearestCard();
+            }
+        }
+
+        // ============================================
+        // SNAP TO NEAREST CARD (after swipe ends)
+        // ============================================
+        function snapToNearestCard() {
+            if (!isMobile()) return; // Only snap on mobile for cleaner UX
+
+            const cardWidth = isMobile() ? 292 : 405; // card width + gap
+            const currentScroll = track.scrollLeft;
+            const nearestCardIndex = Math.round(currentScroll / cardWidth);
+            const targetScroll = nearestCardIndex * cardWidth;
+
+            track.scrollTo({
+                left: targetScroll,
+                behavior: 'smooth'
+            });
+        }
     </script>
 </body>
 
